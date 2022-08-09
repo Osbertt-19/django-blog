@@ -19,12 +19,13 @@ def index(request):
 def post_create(request):
     if request.method == "POST":
         title = request.POST['title']
-        author = request.POST['author']
+        author = request.user
         body = request.POST['body']
         post = Post.objects.create(title=title, author=author, body=body)
         post.save()
         return redirect('index')
     else:
+
         return render(request, 'post_create.html')
 
 
