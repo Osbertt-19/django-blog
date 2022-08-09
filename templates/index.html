@@ -1,0 +1,25 @@
+{% extends 'base.html' %}{% block content %}
+{% for post in posts %}
+<div class="card mb-2">
+  <div class="card-body">
+    <h5 class="card-title">{{post.title}}</h5>
+    <small class="text-muted">{{post.author}}</small>
+    <p class="card-text">
+     {{post.body}}
+    </p>
+    <a href="{% url 'post_detail' post.pk %}" class="btn btn-primary">Read more</a>
+  </div>
+</div>
+{% endfor %}
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="#">Previous</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#">Page 2 of 4</a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+  </nav>
+{% endblock content %}
