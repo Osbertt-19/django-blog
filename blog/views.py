@@ -31,8 +31,10 @@ def post_create(request):
 
 def post_detail(request, pk):
     post = Post.objects.get(pk=pk)
+    user_can_edit_del_post= post.author==request.user
     context = {
-        'post': post
+        'post': post,
+        'user_can_edit_del_post':user_can_edit_del_post
     }
     return render(request, 'post_detail.html', context)
 

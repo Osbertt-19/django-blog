@@ -5,13 +5,14 @@
       <li class="nav-item me-auto">
         <span class="card-title h3 d-inline">{{post.title}}</span>
       </li>
-
+      {% if user_can_edit_del_post %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'post_edit' post.pk %}">Edit</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'post_delete' post.pk %}">Delete</a>
       </li>
+      {% endif %}
     </ul>
     <small class="text-muted">{{post.author}}</small>
     <p class="card-text">{{post.body}}</p>
