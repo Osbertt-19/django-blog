@@ -1,11 +1,20 @@
 {% extends 'base.html' %}{% block content %}
-<div class="card mb-2">
+<div class="card mb-2 mx-3">
   <div class="card-body">
-    <h5 class="card-title">{{post.title}}</h5>
+    <ul class="nav">
+      <li class="nav-item me-auto">
+        <span class="card-title h3 d-inline">{{post.title}}</span>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'post_edit' post.pk %}">Edit</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'post_delete' post.pk %}">Delete</a>
+      </li>
+    </ul>
     <small class="text-muted">{{post.author}}</small>
-    <p class="card-text">
-     {{post.body}}
-    </p>
+    <p class="card-text">{{post.body}}</p>
   </div>
 </div>
 {% endblock content %}

@@ -1,32 +1,44 @@
 {% extends 'base.html' %}{% block content %}
 <form action="" method="POST">
   {% csrf_token %}
-  <div class="mb-3 row">
-    <label for="author" class="col-sm-2 col-form-label">Email</label>
+  <span class="h3 m-3 p-2">Post Creation Form</span>
+  <div class="mb-3 mx-3 row">
+    <label for="author" class="col-sm-2 col-form-label">Author</label>
     <div class="col-sm-10">
       <input
         type="text"
         readonly
         class="form-control-plaintext"
         id="author"
-        value="{{user}}"
+        value="{{user.username}}"
       />
     </div>
   </div>
-  <div class="mb-3 row">
-    <label for="title" class="form-label">Title</label>
-    <input
-      type="text"
-      name="title"
-      class="form-control"
-      id="title"
-      placeholder="Title"
-    />
+  <div class="mb-3 mx-3 row">
+    <label for="title" class="col-sm-2 col-form-label">Title</label>
+    <div class="col-sm-10">
+      <input
+        name="title"
+        type="text"
+        class="form-control"
+        id="title"
+        placeholder="Title"
+      />
+    </div>
   </div>
-  <div class="mb-3 row">
-    <label for="body" class="form-label">Body</label>
-    <textarea class="form-control" name="body" id="body" rows="6"></textarea>
+  <div class="mb-3 mx-3 row">
+    <label for="body" class="col-sm-2 col-form-label">Body</label>
+    <div class="col-sm-10">
+      <textarea
+        name="body"
+        type="text"
+        class="form-control"
+        id="body"
+        placeholder="Body"
+        rows="10"
+      ></textarea>
+    </div>
   </div>
-  <input type="submit" value="submit" />
+  <button type="submit" class="btn btn-primary mx-3">Create Post</button>
 </form>
 {% endblock content %}

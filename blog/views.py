@@ -42,7 +42,7 @@ def post_edit(request, pk):
     selected_post = Post.objects.get(pk=pk)
     if request.method == "POST":
         title = request.POST['title']
-        author = request.POST['author']
+        author = request.user
         body = request.POST['body']
         selected_post.title = title
         selected_post.author = author
@@ -51,7 +51,7 @@ def post_edit(request, pk):
         return redirect('post_detail', selected_post.pk)
     else:
         context = {
-            'selected_post': selected_post
+            'post': selected_post
         }
         return render(request, 'post_edit.html', context)
 
@@ -64,7 +64,7 @@ def post_delete(request, pk):
         return redirect('index')
     else:
         context = {
-            'deleted_post': deleted_post
+            'post': deleted_post
         }
         return render(request, 'post_delete.html', context)
 
