@@ -1,6 +1,18 @@
-{% extends 'base.html' %}{% block content %}
+{% extends 'base.html' %}{% block content %} {% if user.is_authenticated %}
+<span class="h6 m-2"
+  >Welcome {{user.username}}, you are now logged in and can contribute to our
+  website :&#41;</span
+>
 <a href="{% url 'post_create' %}" class="btn btn-primary m-2">Create post</a>
-
+<a href="{% url 'logout' %}" class="btn btn-danger m-2">Log out</a>
+{% else %}
+<span class="h6 m-2">
+  You are not logged in now and cannot contribute to our website :&#40; But you
+  can read our posts :D Log in or Sign up if you want to contribute ;&#41;</span
+>
+<a href="{% url 'login' %}" class="btn btn-primary m-2">Log in</a>
+<a href="{% url 'signup' %}" class="btn btn-primary m-2">Sign up</a>
+{% endif %}
 <div class="container-flex">
   <div class="row">
     <div class="col-4">
@@ -12,7 +24,7 @@
             placeholder="Search"
             aria-label="Search"
           />
-          <button class="btn btn-outline-success" type="submit">Search</button>
+          <button class="btn btn-outline-primary" type="submit">Search</button>
         </form>
         <div class="my-2 border border-dark rounded">
           <span class="d-block border-bottom border-dark px-4 py-3">

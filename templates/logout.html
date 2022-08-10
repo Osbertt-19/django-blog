@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% block content %}
+<form action="" method="POST">
+  {% csrf_token %}
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-text mb-3">Are you sure you want to log out?</h5>
+      <button type="submit" class="btn btn-danger mx-3">Yes</button>
+      <a class="btn btn-primary" href="{% url 'index' %}">No</a>
+    </div>
+  </div>
+</form>
+{% endblock content %}

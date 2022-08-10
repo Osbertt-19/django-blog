@@ -137,4 +137,4 @@ def logout(request):
         auth.logout(request)
         return redirect('login')
     else:
-        return render(request, 'logout.html')
+        return render(request, 'index.html')
