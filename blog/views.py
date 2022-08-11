@@ -8,7 +8,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def index(request):
-    post_list = Post.objects.all()
+    post_list = Post.published.all()
     # Pagination with 3 posts per page
     paginator = Paginator(post_list, 3)
     page_number = request.GET.get('page', 1)
@@ -33,7 +33,8 @@ def post_create(request):
         title = request.POST['title']
         author = request.user
         body = request.POST['body']
-        post = Post.objects.create(title=title, author=author, body=body)
+        status = request.POST['status']
+        post = Post.objects.create(title=title, author=author, body=body, status=status)
         post.save()
         return redirect('index')
     else:
@@ -66,12 +67,10 @@ def post_edit(request, pk):
     if selected_post.author == request.user:
         pass
     if request.method == "POST":
-        title = request.POST['title']
-        author = request.user
-        body = request.POST['body']
-        selected_post.title = title
-        selected_post.author = author
-        selected_post.body = body
+        selected_post.title = request.POST['title']
+        selected_post.author = request.user
+        selected_post.body = request.POST['body']
+        selected_post.status = request.POST['status']
         selected_post.save()
         return redirect('post_detail', selected_post.pk)
     else:

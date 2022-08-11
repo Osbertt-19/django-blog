@@ -1,12 +1,12 @@
 {% extends 'base.html' %} {% block content %} {% if user.is_authenticated %}
-<span class="h6 m-2"
+<span class="h5 m-2"
   >Welcome {{user.username}}, you are now logged in and can contribute to our
   website :&#41;</span
 >
 <a href="{% url 'post_create' %}" class="btn btn-primary m-2">Create post</a>
 <a href="{% url 'logout' %}" class="btn btn-danger m-2">Log out</a>
 {% else %}
-<span class="h6 m-2">
+<span class="h5 m-2">
   You are not logged in now and cannot contribute to our website :&#40; But you
   can read our posts :D Log in or Sign up if you want to contribute ;&#41;</span
 >
@@ -103,11 +103,13 @@
       </div>
     </div>
     <div class="col-4">
-      {% for post in posts %}
+      {% load blog_tags %} {% show_draft_posts user %} {% for post in posts %}
       <div class="card mb-2">
         <div class="card-body">
           <h5 class="card-title">{{post.title}}</h5>
-          <small class="text-muted">{{post.author}}</small>
+          <small class="text-muted"
+            >{{post.author}} {{post.status|full_status}}</small
+          >
           <p class="card-text">{{post.body}}</p>
           <a href="{% url 'post_detail' post.pk %}" class="btn btn-primary"
             >Read more</a

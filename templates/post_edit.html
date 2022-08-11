@@ -39,6 +39,13 @@
       />
     </div>
   </div>
+  <div class="mb-3 mx-3 row">
+    <label for="status" class="col-sm-2 col-form-label">Status</label>
+    <select class="form-select mx-3 w-25 col-sm-10" name="status" id="status">
+      <option value="PB" {% if post.status == 'PB' %}selected{% endif %}>Published</option>      
+      <option value="DF" {% if post.status == 'DF' %}selected {% endif %}>Draft</option>    
+    </select>
+  </div>
   <button type="submit" class="btn btn-primary mx-3">Edit Post</button>
 </form>
 {% endblock content %}

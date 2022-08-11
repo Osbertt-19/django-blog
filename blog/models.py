@@ -11,6 +11,12 @@ class PublishedManager(models.Manager):
                       .filter(status=Post.Status.PUBLISHED)
 
 
+class DraftManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset()\
+                      .filter(status=Post.Status.DRAFT)
+
+
 class Post(models.Model):
 
     class Status(models.TextChoices):
@@ -33,6 +39,7 @@ class Post(models.Model):
 
     objects = models.Manager()  # The default manager.
     published = PublishedManager()  # Our custom manager.
+    draft = DraftManager()
     #tags = TaggableManager()
 
     class Meta:

@@ -14,7 +14,9 @@
       </li>
       {% endif %}
     </ul>
-    <small class="text-muted">{{post.publish}} by {{post.author}}</small>
+    <small class="text-muted"
+      >{{post.publish}} by {{post.author}} {{post.status|full_status}}</small
+    >
     <p class="card-text">{{post.body}}</p>
   </div>
 </div>

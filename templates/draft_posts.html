@@ -1,0 +1,16 @@
+{% load blog_tags %}
+<span class="h5 m-2"
+  >You have {{posts.count}} Draft post{{posts.count|pluralize}} to finish</span
+>
+{% for post in posts %}
+<div class="card mb-2">
+  <div class="card-body">
+    <h5 class="card-title">{{post.title}}</h5>
+    <small class="text-muted"
+      >{{post.author}} {{post.status|full_status}}</small
+    >
+    <p class="card-text">{{post.body}}</p>
+    <a href="{% url 'post_edit' post.pk %}" class="btn btn-secondary">Finish</a>
+  </div>
+</div>
+{% endfor %}
