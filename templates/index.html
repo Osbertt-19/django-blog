@@ -1,4 +1,4 @@
-{% extends 'base.html' %}{% block content %} {% if user.is_authenticated %}
+{% extends 'base.html' %} {% block content %} {% if user.is_authenticated %}
 <span class="h6 m-2"
   >Welcome {{user.username}}, you are now logged in and can contribute to our
   website :&#41;</span
@@ -111,31 +111,24 @@
           <p class="card-text">{{post.body}}</p>
           <a href="{% url 'post_detail' post.pk %}" class="btn btn-primary"
             >Read more</a
+          ><span class="badge text-bg-primary mx-1"
+            >{{post.comments.count}}
+            comment{{post.comments.count|pluralize}}</span
           >
         </div>
       </div>
-      {% endfor %}
-      <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#">Previous</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">Page 2 of 4</a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
-      </nav>
+      {% endfor %} {% include "pagination.html" with page=posts %}
     </div>
+    {% load static %}
     <div class="col-4">
       <span class="d-block m-3 h4">Your Favourite game is back!</span>
-      <img src="fpl1.jpg" alt="Fantasy Football ad" />
+      <img src="{% static 'fpl1.jpg' %}" alt="Fantasy Football ad" />
       <a
         class="d-block m-3 text-decoration-none h4"
         href="https://fantasy.premierleague.com/"
         >Choose your squad now
       </a>
-      <img src="fpl2.jpg" alt="Fantasy Football ad" />
+      <img src="{% static 'fpl2.jpg' %}" alt="Fantasy Football ad" />
     </div>
   </div>
 </div>

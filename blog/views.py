@@ -1,13 +1,25 @@
 from django.shortcuts import render, redirect
-from .models import Post
+from .models import Post, Comment
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def index(request):
-    posts = Post.objects.all
+    post_list = Post.objects.all()
+    # Pagination with 3 posts per page
+    paginator = Paginator(post_list, 3)
+    page_number = request.GET.get('page', 1)
+    try:
+        posts = paginator.page(page_number)
+    except PageNotAnInteger:
+        # If page_number is not an integer deliver the first page
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page_number is out of range deliver last page of results
+        posts = paginator.page(paginator.num_pages)
     context = {
         'posts': posts
     }
@@ -31,6 +43,15 @@ def post_create(request):
 
 def post_detail(request, pk):
     post = Post.objects.get(pk=pk)
+    if request.method == "POST":
+        body = request.POST['body']
+        if request.user.is_authenticated:
+            commenter = User.objects.get(username=request.user.username)
+            comment = Comment.objects.create(body=body, commenter=commenter, post=post)
+            comment.save()
+        else:
+            messages.info(request, 'U need to log in to comment')
+
     user_can_edit_del_post = post.author == request.user
     context = {
         'post': post,
@@ -141,6 +162,6 @@ def login(request):
 def logout(request):
     if request.method == "POST":
         auth.logout(request)
-        return redirect('login')
+        return redirect('index')
     else:
-        return render(request, 'index.html')
+        return render(request, 'logout.html')

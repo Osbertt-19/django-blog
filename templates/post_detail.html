@@ -18,4 +18,34 @@
     <p class="card-text">{{post.body}}</p>
   </div>
 </div>
+
+<div class="card m-3">
+  <div class="card-body">
+    <h4 class="card-title">
+      Comments<span class="badge text-bg-primary mx-1"
+        >{{post.comments.count}}</span
+      >
+    </h4>
+    {% for comment in post.comments.all %}
+    <p class="card-text row">
+      <span class="col-sm-3">{{comment.commenter}}</span>
+      <span class="col-sm-9">{{comment.body}}</span>
+    </p>
+    {% endfor %}
+  </div>
+</div>
+{% for message in messages %}
+<span class="h6 text-danger mb-3 mx-4">*{{message}}</span>
+<a href="{% url 'login' %}" class="btn btn-primary m-2">Log in</a>
+{% endfor %}
+<form class="d-flex mx-3" action="" method="POST">
+  {% csrf_token %}
+  <input
+    name="body"
+    class="form-control me-2"
+    type="text"
+    placeholder="Comment as {{user.username}}"
+  />
+  <button class="btn btn-primary" type="submit">Post</button>
+</form>
 {% endblock content %}
