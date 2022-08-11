@@ -1,4 +1,4 @@
-{% extends 'base.html' %}{% block content %}
+{% extends 'base.html' %}{% block content %} {% load blog_tags %}
 <div class="card mb-2 mx-3">
   <div class="card-body">
     <ul class="nav">
@@ -14,7 +14,7 @@
       </li>
       {% endif %}
     </ul>
-    <small class="text-muted">{{post.author}}</small>
+    <small class="text-muted">{{post.publish}} by {{post.author}}</small>
     <p class="card-text">{{post.body}}</p>
   </div>
 </div>

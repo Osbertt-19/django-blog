@@ -31,10 +31,10 @@ def post_create(request):
 
 def post_detail(request, pk):
     post = Post.objects.get(pk=pk)
-    user_can_edit_del_post= post.author==request.user
+    user_can_edit_del_post = post.author == request.user
     context = {
         'post': post,
-        'user_can_edit_del_post':user_can_edit_del_post
+        'user_can_edit_del_post': user_can_edit_del_post
     }
     return render(request, 'post_detail.html', context)
 
@@ -42,6 +42,8 @@ def post_detail(request, pk):
 @login_required(login_url='login')
 def post_edit(request, pk):
     selected_post = Post.objects.get(pk=pk)
+    if selected_post.author == request.user:
+        pass
     if request.method == "POST":
         title = request.POST['title']
         author = request.user
@@ -61,6 +63,8 @@ def post_edit(request, pk):
 @login_required(login_url='login')
 def post_delete(request, pk):
     deleted_post = Post.objects.get(pk=pk)
+    if deleted_post.author == request.user:
+        pass
     if request.method == "POST":
         deleted_post.delete()
         return redirect('index')
