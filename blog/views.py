@@ -97,21 +97,26 @@ def post_delete(request, pk):
 
 @login_required(login_url='login')
 def post_share(request, pk):
+    sent = False
+    to = None
     shared_post = Post.objects.get(pk=pk)
     if request.method == "POST":
         url = request.build_absolute_uri(shared_post.get_absolute_url())
-        name = request.POST['name']
+        from_ = request.user
         to = request.POST['to']
         comment = request.POST['comment']
-        subject = f"{name} recommends you to read {shared_post.title} by {shared_post.author}"
-        message = f"Read {shared_post.title} by {shared_post.author} at {url} " f" {name} : {comment}"
+        subject = f"{from_} recommends you to read {shared_post.title} by {shared_post.author}"
+        message = f"Read {shared_post.title} by {shared_post.author} at {url} \n" \
+                  f"{from_} : {comment}"
         send_mail(subject, message, 'minhtetnaing25mhn@gmail.com', [to])
-        return redirect('index')
-    else:
-        context = {
-            'shared_post': shared_post
-        }
-        return render(request, 'post_share.html', context)
+        sent = True
+
+    context = {
+        'post': shared_post,
+        'sent': sent,
+        'to': to,
+    }
+    return render(request, 'post_share.html', context)
 
 
 def signup(request):

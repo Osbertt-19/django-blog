@@ -13,6 +13,9 @@
         <a class="nav-link" href="{% url 'post_delete' post.pk %}">Delete</a>
       </li>
       {% endif %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'post_share' post.pk %}">Share</a>
+      </li>
     </ul>
     <small class="text-muted"
       >{{post.publish}} by {{post.author}} {{post.status|full_status}}</small
