@@ -26,18 +26,21 @@
         <button class="btn btn-outline-secondary" type="submit">Search</button>
       </form>
       <div class="m-2 border border-secondary rounded">
-        <span class="d-block border-bottom border-secondary px-4 py-3">
-          Filter by
-        </span>
-        <div class="accordion" id="accordionExample">
+        <div class="d-flex border-bottom border-secondary">
+          <span class="px-4 py-3 me-auto">Filter by</span>
+          <a href="{% url 'index' %}" class="btn btn-danger m-2"
+            >Remove filters</a
+          >
+        </div>
+        <div class="accordion" id="accordionparent">
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
               <button
-                class="accordion-button"
+                class="accordion-button collapsed"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseOne"
-                aria-expanded="true"
+                aria-expanded="false"
                 aria-controls="collapseOne"
               >
                 Author
@@ -45,9 +48,9 @@
             </h2>
             <div
               id="collapseOne"
-              class="accordion-collapse collapse show"
+              class="accordion-collapse collapse"
               aria-labelledby="headingOne"
-              data-bs-parent="#accordionExample"
+              data-bs-parent="#accordion-parent"
             >
               {% get_all_authors as all_authors %}
               <div class="accordion-body">
@@ -78,7 +81,7 @@
               id="collapseTwo"
               class="accordion-collapse collapse"
               aria-labelledby="headingTwo"
-              data-bs-parent="#accordionExample"
+              data-bs-parent="#accordion-parent"
             >
               {% get_all_tags as all_tags%}
               <div class="accordion-body">
