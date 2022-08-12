@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from .models import Post, Comment, Tag
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
