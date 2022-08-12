@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from .models import Post, Comment
+from .models import Post, Comment, Tag
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils.text import slugify
 
 
 def index(request):
@@ -34,8 +35,14 @@ def post_create(request):
         author = request.user
         body = request.POST['body']
         status = request.POST['status']
-        post = Post.objects.create(title=title, author=author, body=body, status=status)
+        tags = request.POST['tags'].split(',')
+        post = Post.objects.create(title=title, author=author, body=body, status=status,)
+        for tag_name in tags:
+            tag = Tag.objects.create(name=tag_name, slug=slugify(tag_name))
+            tag.save()
+            post.tags.add(tag)
         post.save()
+
         return redirect('index')
     else:
 
@@ -71,6 +78,12 @@ def post_edit(request, pk):
         selected_post.author = request.user
         selected_post.body = request.POST['body']
         selected_post.status = request.POST['status']
+        selected_post.tags.clear()
+        tags = request.POST['tags'].split(',')
+        for tag_name in tags:
+            tag = Tag.objects.create(name=tag_name, slug=slugify(tag_name))
+            tag.save()
+            selected_post.tags.add(tag)
         selected_post.save()
         return redirect('post_detail', selected_post.pk)
     else:

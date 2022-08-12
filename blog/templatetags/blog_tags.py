@@ -1,9 +1,15 @@
 from django import template
 from ..models import Post
+from django.contrib.auth.models import User
 from django.utils.timezone import datetime
 
 
 register = template.Library()
+
+
+@register.simple_tag()
+def get_all_authors():
+    return User.objects.all()
 
 
 @register.inclusion_tag('draft_posts.html')

@@ -12,7 +12,7 @@
 >
 <a href="{% url 'login' %}" class="btn btn-primary m-2">Log in</a>
 <a href="{% url 'signup' %}" class="btn btn-primary m-2">Sign up</a>
-{% endif %}
+{% endif %} {% load blog_tags %}
 <div class="container-flex">
   <div class="row">
     <div class="col-4">
@@ -50,17 +50,13 @@
                 aria-labelledby="headingOne"
                 data-bs-parent="#accordionExample"
               >
+                {% get_all_authors as all_authors %}
                 <div class="accordion-body">
+                  {% for author in all_authors %}
                   <a href="#" class="d-block text-decoration-none p-2"
-                    >Osbertt</a
+                    >{{author.username}}</a
                   >
-                  <a href="#" class="d-block text-decoration-none p-2"
-                    >Marigold</a
-                  >
-                  <a href="#" class="d-block text-decoration-none p-2"
-                    >Burger</a
-                  >
-                  <a href="#" class="d-block text-decoration-none p-2">Mirai</a>
+                  {% endfor %}
                 </div>
               </div>
             </div>
@@ -103,13 +99,16 @@
       </div>
     </div>
     <div class="col-4">
-      {% load blog_tags %} {% show_draft_posts user %} {% for post in posts %}
+      {% load static %} {% for post in posts %}
       <div class="card mb-2">
         <div class="card-body">
           <h5 class="card-title">{{post.title}}</h5>
           <small class="text-muted"
             >{{post.author}} {{post.status|full_status}}</small
           >
+          {% for tag in post.tags.all %}
+          <span class="badge rounded-pill text-bg-primary mx-1">#{{tag}}</span>
+          {% endfor%}
           <p class="card-text">{{post.body}}</p>
           <a href="{% url 'post_detail' post.pk %}" class="btn btn-primary"
             >Read more</a
@@ -120,9 +119,6 @@
         </div>
       </div>
       {% endfor %} {% include "pagination.html" with page=posts %}
-    </div>
-    {% load static %}
-    <div class="col-4">
       <span class="d-block m-3 h4">Your Favourite game is back!</span>
       <img src="{% static 'fpl1.jpg' %}" alt="Fantasy Football ad" />
       <a
@@ -132,6 +128,8 @@
       </a>
       <img src="{% static 'fpl2.jpg' %}" alt="Fantasy Football ad" />
     </div>
+
+    <div class="col-4">{% show_draft_posts user %}</div>
   </div>
 </div>
 

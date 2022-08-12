@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment
+from .models import Post, Comment, Tag
 
 
 @admin.register(Post)
@@ -18,3 +18,8 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ['commenter',  'post', 'created', ]
     list_filter = ['created', 'updated']
     search_fields = ['commenter',  'body']
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ['name']
