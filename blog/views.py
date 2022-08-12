@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post, Comment, Tag
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
@@ -8,8 +8,15 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.text import slugify
 
 
-def index(request):
+def index(request, author=None, tag=None):
     post_list = Post.published.all()
+    filter_ = ''
+    if tag:
+        post_list = post_list.filter(tags__name__in=[tag])
+        filter_ = f'with #{tag} tag'
+    if author:
+        post_list = post_list.filter(author__username=author)
+        filter_ = f'of {author}'
     # Pagination with 3 posts per page
     paginator = Paginator(post_list, 3)
     page_number = request.GET.get('page', 1)
@@ -22,7 +29,9 @@ def index(request):
         # If page_number is out of range deliver last page of results
         posts = paginator.page(paginator.num_pages)
     context = {
-        'posts': posts
+        'posts': posts,
+        'filter': filter_,
+        'all_posts': post_list,
     }
 
     return render(request, 'index.html', context)

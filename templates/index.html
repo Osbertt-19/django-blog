@@ -16,82 +16,78 @@
 <div class="container-flex">
   <div class="row">
     <div class="col-4">
-      <div class="m-2">
-        <form class="d-flex" role="search">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn btn-outline-primary" type="submit">Search</button>
-        </form>
-        <div class="my-2 border border-dark rounded">
-          <span class="d-block border-bottom border-dark px-4 py-3">
-            Filter by
-          </span>
-          <div class="accordion" id="accordionExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingOne">
-                <button
-                  class="accordion-button"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseOne"
-                  aria-expanded="true"
-                  aria-controls="collapseOne"
-                >
-                  Author
-                </button>
-              </h2>
-              <div
-                id="collapseOne"
-                class="accordion-collapse collapse show"
-                aria-labelledby="headingOne"
-                data-bs-parent="#accordionExample"
+      <form class="d-flex m-2" role="search">
+        <input
+          class="form-control me-2 border border-secondary"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
+      </form>
+      <div class="m-2 border border-secondary rounded">
+        <span class="d-block border-bottom border-secondary px-4 py-3">
+          Filter by
+        </span>
+        <div class="accordion" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
               >
-                {% get_all_authors as all_authors %}
-                <div class="accordion-body">
-                  {% for author in all_authors %}
-                  <a href="#" class="d-block text-decoration-none p-2"
-                    >{{author.username}}</a
-                  >
-                  {% endfor %}
-                </div>
+                Author
+              </button>
+            </h2>
+            <div
+              id="collapseOne"
+              class="accordion-collapse collapse show"
+              aria-labelledby="headingOne"
+              data-bs-parent="#accordionExample"
+            >
+              {% get_all_authors as all_authors %}
+              <div class="accordion-body">
+                {% for author in all_authors %}
+                <a
+                  href="{% url 'author' author.username %}"
+                  class="d-block text-decoration-none p-2"
+                  >{{author.username}}</a
+                >
+                {% endfor %}
               </div>
             </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingTwo">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseTwo"
-                  aria-expanded="false"
-                  aria-controls="collapseTwo"
-                >
-                  Tags
-                </button>
-              </h2>
-              <div
-                id="collapseTwo"
-                class="accordion-collapse collapse"
-                aria-labelledby="headingTwo"
-                data-bs-parent="#accordionExample"
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo"
               >
-                <div class="accordion-body">
-                  <a href="#" class="d-block text-decoration-none p-2">News</a>
-                  <a href="#" class="d-block text-decoration-none p-2"
-                    >Review</a
-                  >
-                  <a href="#" class="d-block text-decoration-none p-2"
-                    >Preview</a
-                  >
-                  <a href="#" class="d-block text-decoration-none p-2">Score</a>
-                  <a href="#" class="d-block text-decoration-none p-2"
-                    >Opinion</a
-                  >
-                </div>
+                Tags
+              </button>
+            </h2>
+            <div
+              id="collapseTwo"
+              class="accordion-collapse collapse"
+              aria-labelledby="headingTwo"
+              data-bs-parent="#accordionExample"
+            >
+              {% get_all_tags as all_tags%}
+              <div class="accordion-body">
+                {% for tag in all_tags %}
+                <a
+                  href="{% url 'tag' tag %}"
+                  class="d-block text-decoration-none p-2"
+                  >#{{tag}}</a
+                >{% endfor %}
               </div>
             </div>
           </div>
@@ -99,6 +95,10 @@
       </div>
     </div>
     <div class="col-4">
+      <span class="h5 m-2"
+        >There are {{all_posts.count}} post{{all_posts.count|pluralize}}
+        {{filter}} at the moment</span
+      >
       {% load static %} {% for post in posts %}
       <div class="card mb-2">
         <div class="card-body">
@@ -129,7 +129,9 @@
       <img src="{% static 'fpl2.jpg' %}" alt="Fantasy Football ad" />
     </div>
 
-    <div class="col-4">{% show_draft_posts user %}</div>
+    <div class="col-4">
+      {% if user.is_authenticated %}{% show_draft_posts user %}{% endif %}
+    </div>
   </div>
 </div>
 
