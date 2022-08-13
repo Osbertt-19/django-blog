@@ -46,7 +46,7 @@
 <span class="h6 text-danger mb-3 mx-4">*{{message}}</span>
 <a href="{% url 'login' %}" class="btn btn-primary m-2">Log in</a>
 {% endfor %}
-<form class="d-flex mx-3" action="" method="POST">
+<form class="d-flex mx-3 mb-3" action="" method="POST">
   {% csrf_token %}
   <input
     name="body"
@@ -56,4 +56,29 @@
   />
   <button class="btn btn-primary" type="submit">Post</button>
 </form>
-{% endblock content %}
+<span class="h3 m-3 p-3">Similar Posts</span>
+{% for similar_post in similar_posts %}
+<div class="card m-3 w-25">
+  <div class="card-body">
+    <h5 class="card-title">{{similar_post.title}}</h5>
+    <small class="text-muted"
+      >{{similar_post.author}} {{similar_post.status|full_status}}</small
+    >
+    {% for tag in similar_post.tags.all %}
+    <span class="badge rounded-pill text-bg-primary mx-1">#{{tag}}</span>
+    {% endfor%}
+    <p class="card-text">
+      {{similar_post.body|truncatechars:5 }}
+      <a
+        href="{% url 'post_detail' similar_post.pk %}"
+        class="text-decoration-none"
+        >Read more</a
+      >
+    </p>
+    <span class="badge text-bg-primary mx-1"
+      >{{similar_post.comments.count}}
+      comment{{similar_post.comments.count|pluralize}}</span
+    >
+  </div>
+</div>
+{% endfor %} {% endblock content %}

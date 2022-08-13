@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.text import slugify
+from django.db.models import Count
 
 
 def index(request, author=None, tag=None):
@@ -69,10 +70,16 @@ def post_detail(request, pk):
         else:
             messages.info(request, 'U need to log in to comment')
 
+    # List of similar posts
+    post_tags_names = post.tags.values_list('name', flat=True)
+    similar_posts = Post.published.filter(tags__name__in=post_tags_names).exclude(id=post.id)
+    similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')
+
     user_can_edit_del_post = post.author == request.user
     context = {
         'post': post,
-        'user_can_edit_del_post': user_can_edit_del_post
+        'user_can_edit_del_post': user_can_edit_del_post,
+        'similar_posts': similar_posts,
     }
     return render(request, 'post_detail.html', context)
 

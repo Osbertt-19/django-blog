@@ -112,10 +112,15 @@
           {% for tag in post.tags.all %}
           <span class="badge rounded-pill text-bg-primary mx-1">#{{tag}}</span>
           {% endfor%}
-          <p class="card-text">{{post.body}}</p>
-          <a href="{% url 'post_detail' post.pk %}" class="btn btn-primary"
-            >Read more</a
-          ><span class="badge text-bg-primary mx-1"
+          <p class="card-text">
+            {{post.body|truncatechars:5 }}
+            <a
+              href="{% url 'post_detail' post.pk %}"
+              class="text-decoration-none"
+              >Read more</a
+            >
+          </p>
+          <span class="badge text-bg-primary mx-1"
             >{{post.comments.count}}
             comment{{post.comments.count|pluralize}}</span
           >
