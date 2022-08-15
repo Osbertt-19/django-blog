@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from . import views, feeds
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -10,6 +10,7 @@ urlpatterns = [
     path('post/<int:pk>/edit/', views.post_edit, name='post_edit'),
     path('post/<int:pk>/delete/', views.post_delete, name='post_delete'),
     path('post/<int:pk>/share/', views.post_share, name='post_share'),
+    path('feed/', feeds.LatestPostsFeed(), name='post_feed'),
     path('signup/', views.signup, name='signup'),
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
