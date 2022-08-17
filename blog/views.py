@@ -7,11 +7,18 @@ from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.text import slugify
 from django.db.models import Count
+from django.db.models import Q
 
 
-def index(request, author=None, tag=None):
+def index(request, author=None, tag=None,):
     post_list = Post.published.all()
     filter_ = ''
+    if request.method == "GET":
+        query = request.GET.get('search')
+        if query:
+            post_list = post_list.filter(Q(title__icontains=query) | Q(
+                author__username=query) | Q(body__icontains=query))
+            filter_ = f'containing "{query}"'
     if tag:
         post_list = post_list.filter(tags__name__in=[tag])
         filter_ = f'with #{tag} tag'

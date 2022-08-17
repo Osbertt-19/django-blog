@@ -16,8 +16,9 @@
 <div class="container-flex">
   <div class="row">
     <div class="col-4">
-      <form class="d-flex m-2" role="search">
+      <form class="d-flex m-2" role="search" method="GET">
         <input
+          name="search"
           class="form-control me-2 border border-secondary"
           type="search"
           placeholder="Search"
@@ -100,8 +101,8 @@
     <div class="col-4">
       <span class="h5 m-2"
         >There are {{all_posts.count}} post{{all_posts.count|pluralize}}
-        {{filter}} at the moment</span
-      >
+        {{filter}}
+      </span>
       {% load static %} {% for post in posts %}
       <div class="card mb-2">
         <div class="card-body">
