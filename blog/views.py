@@ -20,7 +20,7 @@ def index(request, author=None, tag=None,):
                 author__username=query) | Q(body__icontains=query))
             filter_ = f'containing "{query}"'
     if tag:
-        post_list = post_list.filter(tags__name__in=[tag])
+        post_list = post_list.filter(tags__slug__in=[tag])
         filter_ = f'with #{tag} tag'
     if author:
         post_list = post_list.filter(author__username=author)
@@ -55,9 +55,12 @@ def post_create(request):
         tags = request.POST['tags'].split(',')
         post = Post.objects.create(title=title, author=author, body=body, status=status,)
         for tag_name in tags:
-            tag = Tag.objects.create(name=tag_name, slug=slugify(tag_name))
-            tag.save()
-            post.tags.add(tag)
+            try:
+                tag = Tag.objects.get(name=tag_name)
+            except:
+                tag = Tag.objects.create(name=tag_name, slug=slugify(tag_name))
+                tag.save()
+            tag.post.add(post)
         post.save()
 
         return redirect('index')
@@ -104,9 +107,12 @@ def post_edit(request, pk):
         selected_post.tags.clear()
         tags = request.POST['tags'].split(',')
         for tag_name in tags:
-            tag = Tag.objects.create(name=tag_name, slug=slugify(tag_name))
-            tag.save()
-            selected_post.tags.add(tag)
+            try:
+                tag = Tag.objects.get(name=tag_name)
+            except:
+                tag = Tag.objects.create(name=tag_name, slug=slugify(tag_name))
+                tag.save()
+            tag.post.add(selected_post)
         selected_post.save()
         return redirect('post_detail', selected_post.pk)
     else:

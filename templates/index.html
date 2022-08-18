@@ -88,9 +88,9 @@
               <div class="accordion-body">
                 {% for tag in all_tags %}
                 <a
-                  href="{% url 'tag' tag %}"
+                  href="{% url 'tag' tag.slug %}"
                   class="d-block text-decoration-none p-2"
-                  >#{{tag}}</a
+                  >#{{tag.name}}</a
                 >{% endfor %}
               </div>
             </div>

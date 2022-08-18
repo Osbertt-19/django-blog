@@ -6,7 +6,7 @@
 
 - Blog posts
 - Comments
-- Tags(a custom tag model and it's a bit dysfunctional at the abstraction layer,works fine at the user interface tho. I might try django-taggit later.)
+- Tags
 
 ### CRUD functions
 

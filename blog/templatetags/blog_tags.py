@@ -14,7 +14,7 @@ def get_all_authors():
 
 @register.simple_tag()
 def get_all_tags():
-    return set(Tag.objects.values_list('name', flat=True))
+    return Tag.objects.all()
 
 
 @register.inclusion_tag('draft_posts.html')
