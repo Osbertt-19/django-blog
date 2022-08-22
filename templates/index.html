@@ -99,6 +99,7 @@
       </div>
     </div>
     <div class="col-4">
+      {% load humanize%}
       <span class="h5 m-2"
         >There are {{all_posts.count}} post{{all_posts.count|pluralize}}
         {{filter}}
@@ -108,7 +109,8 @@
         <div class="card-body">
           <h5 class="card-title">{{post.title}}</h5>
           <small class="text-muted"
-            >{{post.author}} {{post.status|full_status}}</small
+            >{{post.publish|naturaltime}} by {{post.author}}
+            {{post.status|full_status}}</small
           >
           {% for tag in post.tags.all %}
           <span class="badge rounded-pill text-bg-primary mx-1">#{{tag}}</span>
